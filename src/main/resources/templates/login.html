@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head :: head ('Ticket Logger - Login')"></head>
+
+<body class="d-flex flex-column h-100">
+
+<!-- Fragmento del header -->
+<header th:replace="header :: header"></header>
+
+<!-- Contenido principal con el formulario de login -->
+<main class="flex-shrink-0">
+    <div class="container">
+        <h1 class="mt-5" th:text="#{spring.security.ui.login.title}">Iniciar sesión</h1>
+
+        <!-- Mensaje de error -->
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form th:action="@{/login}" method="post" class="form-signin">
+                    <!-- Campo de usuario -->
+                    <div class="form-group mb-3">
+                        <label th:for="username" th:text="#{spring.security.ui.login.username}">Usuario</label>
+                        <input type="text" id="username" name="username" class="form-control" th:placeholder="#{spring.security.ui.login.username}" required autofocus>
+                    </div>
+
+                    <!-- Campo de contraseña -->
+                    <div class="form-group mb-3">
+                        <label th:for="password" th:text="#{spring.security.ui.login.password}">Contraseña</label>
+                        <input type="password" id="password" name="password" class="form-control" th:placeholder="#{spring.security.ui.login.password}" required>
+                    </div>
+
+                    <!-- Botón de envío -->
+                    <button class="btn btn-primary w-100" type="submit" th:text="#{spring.security.ui.login.submit}">Iniciar sesión</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<!-- Fragmento del footer -->
+<footer th:replace="footer :: footer"></footer>
+
+</body>
+</html>

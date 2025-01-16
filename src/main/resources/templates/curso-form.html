@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head :: head ('Ticket Logger - Insertar/Actualizar Curso')"></head>
+<body>
+<!-- Incluir el fragmento del header -->
+<header th:replace="header :: header"></header>
+<main class="container mt-5">
+
+  <h1 th:text="${curso.id == null ? 'Añadir Nuevo Curso' : 'Editar Curso'}"></h1>
+
+  <!-- Mostrar un mensaje de error si existe -->
+  <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+  <!-- Formulario para insertar/actualizar Curso -->
+  <form th:action="@{/cursos/update}" th:object="${curso}" method="post" class="mt-4">
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="mb-3">
+      <label for="nombreCurso" class="form-label" th:text="#{msg.curso.name}">Nombre del curso</label>
+      <input type="text" th:field="*{nombreCurso}" id="nombreCurso" class="form-control" />
+      <div th:if="${#fields.hasErrors('nombreCurso')}" class="text-danger" th:errors="*{nombreCurso}"></div>
+    </div>
+
+    <div class="mb-3">
+      <label for="descripcion" class="form-label" th:text="#{msg.curso.descripcion}">Descripción</label>
+      <input type="text" th:field="*{descripcion}" id="descripcion" class="form-control" />
+      <div th:if="${#fields.hasErrors('descripcion')}" class="text-danger" th:errors="*{descripcion}"></div>
+    </div>
+
+    <div class="mb-3">
+      <label for="profesor" class="form-label" th:text="#{msg.curso.profesor}">Profesor</label>
+      <select th:field="*{profesor.id}" id="profesor" class="form-control">
+        <option th:each="profesor : ${listProfesores}"
+                th:value="${profesor.id}"
+                th:text="${profesor.nombre + ' ' + profesor.apellido + ' (' + profesor.id + ')'}">
+        </option>
+      </select>
+      <div th:if="${#fields.hasErrors('profesor')}" class="text-danger" th:errors="*{profesor}"></div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" th:text="#{msg.curso.update}">Actualizar</button>
+  </form>
+
+
+
+  <!-- Botón para volver a la lista -->
+  <a th:href="@{/cursos}" class="btn btn-secondary mt-3" th:text="#{msg.curso.form.returnback}">Volver</a>
+</main>
+
+<!-- Incluir el fragmento del footer -->
+<footer th:replace="footer :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head :: head ('Ticket Logger - Listado de Cursos')"></head>
+<body>
+<!-- Incluir el fragmento del header -->
+<header th:replace="header :: header"></header>
+<main class="container mt-5">
+  <h1 th:text="#{msg.curso.title}"></h1>
+  <!-- Muestra un mensaje de error si hay algún problema -->
+  <div th:if="${errorMessage}" class="alert alert-danger">
+    <p th:text="${errorMessage}"></p>
+  </div>
+
+  <table class="table table-bordered mt-3">
+    <thead>
+    <tr>
+      <th th:text="#{msg.profesor.id}"></th>
+      <th th:text="#{msg.curso.id}"></th>
+      <th th:text="#{msg.curso.name}"></th>
+      <th th:text="#{msg.curso.descripcion}"></th>
+      <th th:text="#{msg.curso.profesor}"></th>
+      <th th:text="#{msg.curso.actions}"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="curso : ${listCursos}">
+      <td th:text="${curso.id}"></td>
+      <td th:text="${curso.id}"></td>
+      <td th:text="${curso.nombreCurso}"></td>
+      <td th:text="${curso.descripcion}"></td>
+      <td>
+        <span th:text="${curso.profesor.nombre + ' ' + curso.profesor.apellido + ' (' + curso.profesor.id + ')'}"></span>
+      </td>
+      <td>
+        <!-- Botón para editar -->
+        <a th:href="@{/cursos/edit(id=${curso.id})}" class="btn btn-primary btn-sm" th:text="#{msg.curso.edit}"></a>
+        <!-- Botón para eliminar -->
+        <form th:action="@{/cursos/delete}" method="post" class="d-inline">
+          <input type="hidden" name="id" th:value="${curso.id}"/>
+          <button type="submit" class="btn btn-danger btn-sm"
+                  th:onclick="|return confirm('¿Estás seguro de que quieres eliminar este curso?');|"
+                  th:text="#{msg.curso.delete}"></button>
+        </form>
+
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Botón para añadir un nuevo curso -->
+  <a th:href="@{/cursos/new}" class="btn btn-success mt-3" th:text="#{msg.curso.add}"></a>
+
+  <!-- Volver a la página principal -->
+  <a href="#" th:href="@{/}" class="btn btn-secondary mt-3" th:text="#{msg.curso.returnback}"></a>
+</main>
+
+<!-- Incluir el fragmento del footer -->
+<footer th:replace="footer :: footer"></footer>
+
+</body>
+</html>

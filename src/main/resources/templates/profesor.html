@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head :: head ('Ticket Logger - Listado de Profesores')"></head>
+<body>
+<!-- Incluir el fragmento del header -->
+<header th:replace="header :: header"></header>
+<main class="container mt-5">
+    <h1 th:text="#{msg.profesor.title}"></h1>
+    <!-- Muestra un mensaje de error si hay algún problema -->
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <!-- Muestra la lista de profesores en una tabla -->
+    <table class="table table-bordered mt-3">
+        <thead>
+        <tr>
+            <th th:text="#{msg.profesor.id}"></th>
+            <th th:text="#{msg.profesor.name}"></th>
+            <th th:text="#{msg.profesor.email}"></th>
+            <th th:text="#{msg.profesor.actions}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="profesor : ${listProfesores}">
+            <td th:text="${profesor.id}"></td>
+            <td th:text="${profesor.nombre}"></td>
+            <td th:text="${profesor.email}"></td>
+            <td>
+                <!-- Botón para editar -->
+                <a th:href="@{/profesores/edit(id=${profesor.id})}" class="btn btn-primary btn-sm" th:text="#{msg.profesor.edit}"></a>
+                <!-- Botón para eliminar -->
+                <form th:action="@{/profesores/profesor/delete}" method="post" class="d-inline">
+                    <input type="hidden" name="id" th:value="${profesor.id}"/>
+                    <button type="submit" class="btn btn-danger btn-sm"
+                            th:onclick="|return confirm('¿Estás seguro de que quieres eliminar este profesor?');|"
+                            th:text="#{msg.profesor.delete}"></button>
+                </form>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Botón para añadir un nuevo profesor -->
+    <a th:href="@{/profesores/new}" class="btn btn-success mt-3" th:text="#{msg.profesor.add}"></a>
+
+    <!-- Volver a la página principal -->
+    <a href="#" th:href="@{/}" class="btn btn-secondary mt-3" th:text="#{msg.profesor.returnback}"></a>
+</main>
+
